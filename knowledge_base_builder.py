@@ -1,6 +1,6 @@
 import spacy
 from typing import List
-import spacy_streamlit
+
 
 class KnowledgeBaseBuilder:
     """
@@ -8,15 +8,11 @@ class KnowledgeBaseBuilder:
     This version provides a functional placeholder for demonstration.
     """
 
-    def __init__(self, model_name: str = "en_core_web_sm"):
-        """
-        Initializes the builder. Uses spacy-streamlit to ensure the
-        model is downloaded and loaded reliably in the Streamlit environment.
-        """
-        # This function downloads and caches the model if it's not present
-        spacy_streamlit.load(model_name)
-        self.nlp = spacy.load(model_name)
-
+# Final, correct code
+def __init__(self, model_name: str = "en_core_web_sm"):
+    # SpaCy will now handle loading the model automatically
+    # because the model was installed via requirements.txt
+    self.nlp = spacy.load(model_name)
 
     def process_article(self, article_text: str) -> List[str]:
         """
@@ -34,3 +30,4 @@ class KnowledgeBaseBuilder:
         if "human oversight" in article_text.lower():
             return ["requires(system, component='human_oversight')"]
         return []
+
