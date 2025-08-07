@@ -1,41 +1,45 @@
+# --- 1. Import all necessary libraries once at the top ---
 import streamlit as st
 import pandas as pd
-import joblib
 import json
+import joblib
 
-# Import your simplified backend "brains"
-from knowledge_base_builder import KnowledgeBaseBuilder
+# Import your backend "brains" using the correct class name with an alias
+from knowledge_base_builder import SymbolicKnowledgeBase as KnowledgeBaseBuilder
 from extractor import NeuroSymbolicBridge
 from engine import ComplianceAuditor
 
+# --- 2. Create the function to run the full audit pipeline ---
 @st.cache_data
 def run_full_audit():
     """
-    Orchestrates the simplified audit process without SpaCy.
+    Orchestrates the entire AI Rosetta Stone audit process.
     """
-    # Initialize components
+    # Initialize all components
     kb_builder = KnowledgeBaseBuilder()
     bridge = NeuroSymbolicBridge()
-    auditor = ComplianceAuditor()
+    # CORRECTED LINE: Pass the kb_builder object to the auditor
+    auditor = ComplianceAuditor(knowledge_base=kb_builder)
 
-    # Process Legal Text
-    article_14_text = "Article 14 (Human Oversight): High-risk AI systems shall be..."
+    # --- A: Process Legal Text ---
+    article_14_text = """Article 14 (Human Oversight): High-risk AI systems shall be designed and developed in such a way that they can be effectively overseen by natural persons during the period in which the AI system is in use."""
     legal_predicates = kb_builder.get_predicates_from_text(article_14_text)
 
-    # Extract Rules from AI Model
+    # --- B: Extract Rules from AI Model ---
     model_path = 'black_box_loan_model.joblib'
     try:
         model = joblib.load(model_path)
     except FileNotFoundError:
         st.error(f"Fatal Error: The model file '{model_path}' was not found. Please add it to your repository.")
         st.stop()
+        
     feature_names = ['credit_amount', 'age', 'is_homeowner']
-    model_rules = bridge.extract_rules(model, feature_names)
+    model_rules = bridge.extract_rules(model, feature_names=feature_names)
 
-    # Run the Audit
+    # --- C: Run the Audit ---
     compliance_report = auditor.run_audit(model_rules, legal_predicates)
 
-    # --- The rest of the dashboard code remains the same ---
+    # We will simulate a more complete report for the UI
     full_report = {
         "overall_compliance": 85.0,
         "compliance_snippet": "Audit of Article 14 found all rules triggering 'high_scrutiny' flags were compliant.",
@@ -48,13 +52,14 @@ def run_full_audit():
     }
     if compliance_report.get("Article 14 (Human Oversight)", {}).get("status") == "Compliance Verified":
          full_report["articles"][1] = {"name": "EU AI Act - Article 14", "status": "Verified"}
-
+    
     return full_report, compliance_report
 
-# --- UI Build (No changes needed) ---
+# --- 3. Build the Dashboard UI ---
 st.set_page_config(layout="wide", page_title="AI Rosetta Stone")
 st.title("AI Rosetta Stone Dashboard")
-# ... (rest of UI code is the same)
+st.markdown("---")
+
 st.write("Running live compliance audit...")
 report_data, raw_report = run_full_audit()
 st.write("...Audit complete!")
