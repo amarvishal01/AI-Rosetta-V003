@@ -13,8 +13,9 @@ class KnowledgeBaseBuilder:
         try:
             self.nlp = spacy.load(model_name)
         except OSError:
-            # This is a fallback for local environments where the model might not be linked.
-            print(f"Spacy model '{model_name}' not found. Please run 'python -m spacy download {model_name}'")
+            # This is a fallback for environments where the model might not be linked.
+            print(f"Spacy model '{model_name}' not found.")
+            # In a real app, you might raise an error or handle this differently.
             self.nlp = None
 
     def process_article(self, article_text: str) -> List[str]:
@@ -28,8 +29,9 @@ class KnowledgeBaseBuilder:
         Returns:
             A list of string-based logical predicates.
         """
-        # In a real system, this would use NLP to extract these.
-        # For the demo, we return a hardcoded predicate that matches our audit logic.
+        # In a real system, this would use sophisticated NLP to extract these.
+        # For this demo, we return a hardcoded predicate that will match our audit logic
+        # if the input text contains the phrase "human oversight".
         if "human oversight" in article_text.lower():
             return ["requires(system, component='human_oversight')"]
         return []
