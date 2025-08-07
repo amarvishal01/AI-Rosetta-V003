@@ -3,5 +3,5 @@ pandas
 scikit-learn
 joblib
 spacy>=3.7.0
-# The new, more robust way to handle the model
-streamlit-spacy
+# The correct library for using SpaCy with Streamlit
+spacy-streamlit
