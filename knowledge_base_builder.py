@@ -8,10 +8,9 @@ from typing import Dict, List, Optional, Any, Tuple
 from pathlib import Path
 import logging
 from dataclasses import dataclass
-
 import spacy
-from rdflib import Graph, Namespace, URIRef, Literal
-# from owlready2 import get_ontology, Thing, DataProperty, ObjectProperty
+# from rdflib import Graph, Namespace, URIRef, Literal  # Temporarily disabled
+#from owlready2 import get_ontology, Thing, DataProperty, ObjectProperty
 
 logger = logging.getLogger(__name__)
 
@@ -64,14 +63,12 @@ class LegalTextProcessor:
 
 # --- Main SymbolicKnowledgeBase Class (CORRECTED) ---
 class SymbolicKnowledgeBase:
-    """
-    Main class for building and managing the symbolic knowledge base.
-    """
+    ...
     def __init__(self, ontology_path: Optional[Path] = None):
         """
         Initialize the symbolic knowledge base.
         """
-        self.graph = Graph()
+        # self.graph = Graph()  # Temporarily disabled
         self.ontology = None
         self.text_processor = LegalTextProcessor() # This internal processor will be used
         self.articles: Dict[str, LegalArticle] = {}
@@ -100,3 +97,4 @@ class SymbolicKnowledgeBase:
         self.rules[rule.rule_id] = rule
         # Full logic would be implemented here
         pass
+
