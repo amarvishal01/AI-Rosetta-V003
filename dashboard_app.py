@@ -4,9 +4,9 @@ import pandas as pd
 import json
 
 # Import your backend "brains"
-from rosetta_stone.knowledge_base.knowledge_base_builder import KnowledgeBaseBuilder
-from rosetta_stone.bridge.extractor import NeuroSymbolicBridge
-
+# This is CORRECT because all .py files are in the same main folder
+from knowledge_base_builder import KnowledgeBaseBuilder
+from extractor import NeuroSymbolicBridge
 from engine import ComplianceAuditor
 
 # --- 2. Create the function to run the full audit pipeline ---
@@ -80,3 +80,4 @@ st.markdown("---")
 
 with st.expander("Show Raw Audit Report"):
     st.json(report_data)
+
