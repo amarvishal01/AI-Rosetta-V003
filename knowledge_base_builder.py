@@ -11,7 +11,7 @@ from dataclasses import dataclass
 
 import spacy
 from rdflib import Graph, Namespace, URIRef, Literal
-from owlready2 import get_ontology, Thing, DataProperty, ObjectProperty
+#from owlready2 import get_ontology, Thing, DataProperty, ObjectProperty
 
 logger = logging.getLogger(__name__)
 
